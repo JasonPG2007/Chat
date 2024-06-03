@@ -1,0 +1,44 @@
+﻿@using Repository
+@model IEnumerable<ObjectBusiness.Message>
+@{
+    ViewData["Title"] = "Chat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int accountIdSend = 0;
+}
+@* <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button> *@
+@foreach (var item in Model)
+{
+    <div class="toast-body">
+        <p>@item.UserName: <br>@item.Contents</p>
+    </div>
+    accountIdSend = item.AccountId;
+}
+<div class="toast-header">
+    @using (Html.BeginForm("Chat", "Chat", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+        <div class="input-group mb-3">
+            <input type="text" name="content" id="message" class="form-control" placeholder="Message" aria-label="Message" aria-describedby="basic-addon1" required>
+            <input type="hidden" value="@accountIdSend" name="accountIdSend" />
+            <button class="input-group-text" id="basic-addon1">Send</button>
+        </div>
+    }
+</div>
+<script>
+
+    const toastTrigger = document.getElementById('liveToastBtn')
+    const toastLiveExample = document.getElementById('liveToast')
+
+    if (toastTrigger) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        toastTrigger.addEventListener('click', () => {
+            toastBootstrap.show()
+        })
+    }
+</script>
+@section Scripts {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/dashboardhub.js"></script>
+}

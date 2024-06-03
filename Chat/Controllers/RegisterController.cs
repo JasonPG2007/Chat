@@ -1,48 +1,50 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ObjectBusiness;
-using Repository;
 
 namespace Chat.Controllers
 {
-    public class HomeController : Controller
+    public class RegisterController : Controller
     {
-        #region Variable
-        private readonly IMessageRepository messageRepository;
-        #endregion
-
-        #region Constructor
-        public HomeController()
-        {
-            messageRepository = new MessageRepository();
-        }
-        #endregion
-
-        // GET: HomeController
+        // GET: RegisterController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: HomeController/Details/5
+        // GET: RegisterController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: HomeController/Create
-        public ActionResult Chat()
+        // GET: RegisterController/Create
+        public ActionResult Create()
         {
             return View();
         }
 
-        // GET: HomeController/Edit/5
+        // POST: RegisterController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: RegisterController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: HomeController/Edit/5
+        // POST: RegisterController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -57,13 +59,13 @@ namespace Chat.Controllers
             }
         }
 
-        // GET: HomeController/Delete/5
+        // GET: RegisterController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: HomeController/Delete/5
+        // POST: RegisterController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
